@@ -1,9 +1,3 @@
-/**
- * ROUTE NEUTRALIZED
- * This file is kept to satisfy your request but its default export has been removed
- * to prevent the "parallel pages" routing error in Next.js.
- * All routing logic for '/login' is now handled exclusively in:
- * src/app/(auth)/login/page.tsx
- */
-export const dynamic = 'force-static';
-// Default export removed to resolve conflict.
+// This file has been neutralized to resolve the Next.js "parallel pages" error.
+// All login functionality is handled by: src/app/(auth)/login/page.tsx
+// Next.js will ignore this file as a route because it no longer exports a default React component.
