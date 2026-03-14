@@ -114,6 +114,7 @@ export default function LoginPage() {
     } catch (error: any) {
       console.error("Login Error:", error.code);
       let msg = "Invalid email or password.";
+      if (error.code === 'auth/invalid-credential') msg = "Incorrect credentials. Please try again.";
       if (error.code === 'auth/too-many-requests') msg = "Too many failed attempts. Try again later.";
       toast({ title: "Sign In Failed", description: msg, variant: "destructive" });
     } finally {
@@ -142,7 +143,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleVerifyEmail = async (e: React.FormEvent) => {
+  const handleVerifyEmailAndSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -191,7 +192,7 @@ export default function LoginPage() {
     try {
       const result = await resetPasswordAdminAction({ email, newPassword });
       if (result.success) {
-        toast({ title: "Password Updated" });
+        toast({ title: "Password Updated", description: "You can now login with your new password." });
         setIsForgotMode(false);
         setForgotStep('email');
       } else {
@@ -222,16 +223,16 @@ export default function LoginPage() {
 
             {isForgotMode ? (
               forgotStep === 'email' ? (
-                <form className="space-y-6" onSubmit={handleVerifyEmail}>
+                <form className="space-y-6" onSubmit={handleVerifyEmailAndSendOtp}>
                   <div className="space-y-2">
                     <h2 className="text-2xl font-bold text-white">Forgot Password?</h2>
-                    <p className="text-white/40 text-sm">Enter email to receive OTP.</p>
+                    <p className="text-white/40 text-sm">Enter registered email to receive verification code.</p>
                   </div>
                   <Input type="email" placeholder="Email address" required className="h-12 bg-white/5 border-white/10 rounded-xl text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-primary text-black" disabled={isLoading}>
-                    {isLoading ? <Loader2 className="animate-spin" /> : "Send OTP"}
+                    {isLoading ? <Loader2 className="animate-spin" /> : "Send Code"}
                   </Button>
-                  <button type="button" onClick={() => setIsForgotMode(false)} className="text-sm text-primary flex items-center gap-2 mx-auto">
+                  <button type="button" onClick={() => setIsForgotMode(false)} className="text-sm text-primary flex items-center gap-2 mx-auto hover:underline">
                     <ArrowLeft className="h-4 w-4" /> Back to Login
                   </button>
                 </form>
@@ -239,19 +240,25 @@ export default function LoginPage() {
                 <form className="space-y-6" onSubmit={handleVerifyOtp}>
                   <div className="space-y-2 text-center">
                     <h2 className="text-2xl font-bold text-white">Verify OTP</h2>
-                    <p className="text-white/40 text-sm">Sent to {email}</p>
+                    <p className="text-white/40 text-sm">A 6-digit code was sent to {email}</p>
                   </div>
                   <Input type="text" placeholder="0 0 0 0 0 0" maxLength={6} required className="h-14 bg-white/5 border-white/10 text-center text-2xl tracking-[0.5em] font-bold rounded-xl text-white" value={userOtp} onChange={(e) => setUserOtp(e.target.value)} />
                   <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-primary text-black">Verify Code</Button>
+                  <button type="button" onClick={() => setForgotStep('email')} className="text-sm text-primary flex items-center gap-2 mx-auto hover:underline">
+                    <ArrowLeft className="h-4 w-4" /> Change Email
+                  </button>
                 </form>
               ) : (
                 <form className="space-y-6" onSubmit={handleResetPassword}>
                   <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-white">Reset Password</h2>
+                    <h2 className="text-2xl font-bold text-white">New Password</h2>
+                    <p className="text-white/40 text-sm">Secure your account with a new password.</p>
                   </div>
                   <Input type="password" placeholder="New password" required className="h-12 bg-white/5 border-white/10 rounded-xl text-white" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                   <Input type="password" placeholder="Confirm new password" required className="h-12 bg-white/5 border-white/10 rounded-xl text-white" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                  <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-primary text-black" disabled={isLoading}>Save Password</Button>
+                  <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-primary text-black" disabled={isLoading}>
+                    {isLoading ? <Loader2 className="animate-spin" /> : "Reset Password"}
+                  </Button>
                 </form>
               )
             ) : (
@@ -273,7 +280,7 @@ export default function LoginPage() {
                     </button>
                   </div>
                   <div className="flex justify-end">
-                    <button type="button" onClick={() => setIsForgotMode(true)} className="text-xs font-bold text-primary italic">Forgot Password?</button>
+                    <button type="button" onClick={() => { setIsForgotMode(true); setForgotStep('email'); }} className="text-xs font-bold text-primary italic hover:underline">Forgot Password?</button>
                   </div>
                   <Button type="submit" className="w-full h-12 rounded-xl font-bold bg-primary text-black" disabled={isLoading}>
                     {isLoading ? <Loader2 className="animate-spin" /> : "Sign In"}
@@ -284,8 +291,10 @@ export default function LoginPage() {
                       <span className="bg-black/40 px-4 text-white/20">or</span>
                     </div>
                   </div>
-                  <Button variant="outline" type="button" className="w-full h-12 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10" onClick={handleGoogleSignIn} disabled={isLoading}>Google</Button>
-                  <p className="text-center text-sm text-white/40 pt-4">Don't have an account? <Link href="/" className="font-bold text-primary italic">Join the mission</Link></p>
+                  <Button variant="outline" type="button" className="w-full h-12 rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10" onClick={handleGoogleSignIn} disabled={isLoading}>
+                    {isLoading ? <Loader2 className="animate-spin" /> : "Google"}
+                  </Button>
+                  <p className="text-center text-sm text-white/40 pt-4">Don't have an account? <Link href="/" className="font-bold text-primary italic hover:underline">Join the mission</Link></p>
                 </form>
               </>
             )}

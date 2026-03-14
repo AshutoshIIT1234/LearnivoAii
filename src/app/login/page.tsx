@@ -6,4 +6,4 @@
  * src/app/(auth)/login/page.tsx
  */
 export const dynamic = 'force-static';
-// Removed default export to resolve Next.js routing conflict.
+// Default export removed to resolve conflict.
