@@ -16,37 +16,18 @@ import { useState, useRef, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from 'next/navigation';
 
-const DashboardWireframe = () => (
-    <div className="relative w-full max-w-5xl rounded-3xl border border-white/10 bg-black/40 p-3 shadow-2xl shadow-primary/20 backdrop-blur-3xl overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div className="aspect-[16/9] w-full rounded-2xl bg-[#0a0a0a] p-6 border border-white/5 relative z-10">
-            <div className="flex h-full w-full gap-6">
-                <div className="w-1/5 rounded-xl bg-white/5 p-4 hidden md:block border border-white/5">
-                    <div className="h-6 w-3/4 rounded-full bg-primary/20 mb-8"></div>
-                    <div className="space-y-4">
-                        <div className="h-2 w-full rounded-full bg-white/10"></div>
-                        <div className="h-2 w-full rounded-full bg-white/10"></div>
-                        <div className="h-2 w-5/6 rounded-full bg-primary/40"></div>
-                        <div className="h-2 w-full rounded-full bg-white/10"></div>
-                    </div>
-                </div>
-                <div className="flex-1 rounded-xl bg-white/5 p-6 border border-white/5">
-                    <div className="flex justify-between items-center mb-8">
-                        <div className="h-6 w-1/3 rounded-full bg-white/10"></div>
-                        <div className="h-10 w-10 rounded-full bg-primary/20 border border-primary/30"></div>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div className="h-24 rounded-2xl bg-black/40 border border-primary/10"></div>
-                        <div className="h-24 rounded-2xl bg-black/40 border border-primary/10"></div>
-                        <div className="h-24 rounded-2xl bg-black/40 border border-primary/10"></div>
-                        <div className="h-32 rounded-2xl bg-primary/5 border border-primary/20 col-span-2"></div>
-                        <div className="h-32 rounded-2xl bg-black/40 border border-primary/10"></div>
-                    </div>
-                </div>
-            </div>
+const DashboardMockup = () => (
+    <div className="relative w-full max-w-5xl rounded-3xl border border-white/10 bg-black/40 p-2 shadow-2xl shadow-primary/20 backdrop-blur-3xl overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div className="relative aspect-[1376/768] w-full rounded-2xl overflow-hidden border border-white/5 z-10">
+            <img 
+                src="https://lh3.googleusercontent.com/aida/AOfcidXBM7JK-1fhp1nAqN9vYnU3sB8kYusJaCUUX_vET9lwjMuqog71VjgQIxmNWCu12AM4dNlETNScLEo6mfCi2rLzcJuUHZ1y_7aTvHlCSwfNmvsY3XYKrT_OSQe-2p4NzvQrhsJSFocyiLb7VdEfqo12qHRksghdQRK4iL3fNtXB1j-zJIr1gQuIQxxxznbFGiwWg6CMs4h85KOAN-XLr-sk9zsf7fF4ByG-WLQRxuaFk7ud6uA3mNj7694" 
+                alt="Learnivo Dashboard" 
+                className="w-full h-full object-cover"
+            />
         </div>
-        <div className="absolute -bottom-20 -right-20 h-64 w-64 bg-primary/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
-        <div className="absolute -top-20 -left-20 h-64 w-64 bg-primary/10 rounded-full blur-[100px] -z-10"></div>
+        <div className="absolute -bottom-20 -right-20 h-64 w-64 bg-primary/30 rounded-full blur-[100px] -z-10 animate-pulse"></div>
+        <div className="absolute -top-20 -left-20 h-64 w-64 bg-primary/20 rounded-full blur-[100px] -z-10"></div>
     </div>
 );
 
@@ -57,24 +38,24 @@ const features = [
     description: "Automate complex lesson plans in minutes, perfectly aligned with Indian curricula.",
   },
   {
-    icon: <Layers className="h-6 w-6" />,
-    title: "Visual Aids",
-    description: "Generate diagrams and charts instantly to explain abstract concepts visually.",
-  },
-  {
-    icon: <Map className="h-6 w-6" />,
-    title: "Hyper-Local Content",
-    description: "Explain concepts using local landmarks and regional languages for deeper connection.",
-  },
-  {
     icon: <HelpCircle className="h-6 w-6" />,
     title: "Quiz Generator",
     description: "Create Bloom's Taxonomy-aligned assessments from any textbook or topic.",
   },
   {
+    icon: <Layers className="h-6 w-6" />,
+    title: "Visual Aids",
+    description: "Generate diagrams and charts instantly to explain abstract concepts visually.",
+  },
+  {
     icon: <MailIcon className="h-6 w-6" />,
     title: "Communication",
     description: "Draft professional, multi-lingual emails to parents with empathy and clarity.",
+  },
+  {
+    icon: <Map className="h-6 w-6" />,
+    title: "Hyper-Local Content",
+    description: "Explain concepts using local landmarks and regional languages for deeper connection.",
   },
   {
     icon: <ScanLine className="h-6 w-6" />,
@@ -181,32 +162,31 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="container relative py-24 md:py-40">
-          <div className="flex flex-col items-center text-center max-w-5xl mx-auto space-y-10">
-              <Badge variant="outline" className="px-6 py-1.5 border-primary/30 text-primary font-bold tracking-widest uppercase bg-primary/5 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                  <Sparkles className="mr-2 h-3.5 w-3.5 fill-primary" /> The Future of Intelligent Education
+        <section className="container relative py-20 md:py-32">
+          <div className="flex flex-col items-center text-center max-w-5xl mx-auto space-y-8">
+              <Badge variant="outline" className="px-6 py-2 border-primary/30 text-primary font-bold tracking-[0.2em] uppercase bg-primary/5 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                  <Sparkles className="mr-2 h-3.5 w-3.5 fill-primary" /> THE FUTURE OF DATA-DRIVEN EDUCATION
               </Badge>
-              <h1 className="font-headline text-7xl md:text-[9rem] font-bold tracking-tighter leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+              <h1 className="font-headline text-6xl md:text-[8rem] font-extrabold tracking-tighter leading-[0.85] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
                   Teach with <br/>
-                  <span className="text-primary italic relative">
-                      Intelligence.
-                      <div className="absolute -bottom-2 left-0 w-full h-1 bg-primary/30 blur-sm"></div>
+                  <span className="text-primary italic">
+                      Data-Driven Intelligence.
                   </span>
               </h1>
-              <p className="text-xl md:text-2xl text-white/50 max-w-3xl leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-                  Learnivo Ai is the ultimate intelligence layer for Indian educators. Automate administration, generate hyper-local content, and unlock student potential.
+              <p className="text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                  Learnivo Ai is the ultimate intelligence layer for Indian educators. Automate administration, personalize content, and track student progress with precision.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 w-full justify-center pt-6 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-700">
-                  <Button size="lg" className="rounded-full h-16 px-12 text-xl font-bold shadow-2xl shadow-primary/40 bg-primary text-black hover:scale-[1.02] transition-transform" onClick={() => setIsDialogOpen(true)}>
-                      Start Free Trial <ArrowRight className="ml-2 h-6 w-6" />
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-700">
+                  <Button size="lg" className="rounded-xl h-14 px-10 text-lg font-extrabold shadow-xl shadow-primary/20 bg-primary text-black hover:scale-[1.02] transition-transform" onClick={() => setIsDialogOpen(true)}>
+                      Start Free Trial
                   </Button>
-                  <Button size="lg" variant="outline" className="rounded-full h-16 px-12 text-xl font-bold border-white/10 hover:bg-white/5 hover:border-primary/50 transition-all">
+                  <Button size="lg" variant="outline" className="rounded-xl h-14 px-10 text-lg font-extrabold border-primary/20 text-white hover:bg-white/5 hover:border-primary/50 transition-all">
                       Explore Tools
                   </Button>
               </div>
-              <div className="pt-20 w-full flex justify-center perspective-[2000px] animate-in fade-in zoom-in-95 duration-1000 delay-1000">
-                  <div className="rotate-x-12 hover:rotate-x-0 transition-transform duration-1000 ease-out">
-                      <DashboardWireframe />
+              <div className="pt-16 w-full flex justify-center perspective-[2000px] animate-in fade-in zoom-in-95 duration-1000 delay-1000">
+                  <div className="rotate-x-6 hover:rotate-x-0 transition-transform duration-1000 ease-out">
+                      <DashboardMockup />
                   </div>
               </div>
           </div>
@@ -214,53 +194,111 @@ export default function LandingPage() {
 
         <section id="features" className="container py-32 border-t border-white/5">
             <div className="text-center mb-24 space-y-4">
-                <h2 className="font-headline text-5xl font-bold">Designed for <span className="text-primary">Impact.</span></h2>
-                <p className="text-white/50 text-xl max-w-2xl mx-auto">We've automated the heavy lifting so you can focus on what matters most: teaching.</p>
+                <h2 className="font-headline text-5xl font-extrabold tracking-tight">Structured for <span className="text-primary italic">Impact.</span></h2>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {features.map((feature, i) => (
-                    <SpotlightCard key={i} className="bg-white/[0.02] p-8 rounded-[2.5rem] hover:bg-white/[0.05] transition-all hover:translate-y-[-8px] group">
-                        <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            {feature.icon}
-                        </div>
-                        <h3 className="font-headline text-2xl font-bold mb-3">{feature.title}</h3>
-                        <p className="text-white/40 text-base leading-relaxed">{feature.description}</p>
-                    </SpotlightCard>
-                ))}
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                {/* Creation Category */}
+                <div className="space-y-8">
+                    <div className="flex items-center gap-4 text-white/30 uppercase tracking-[0.3em] font-bold text-xs after:content-[''] after:h-[1px] after:flex-1 after:bg-white/10 after:border-dashed after:border-t">
+                        Creation
+                    </div>
+                    <div className="space-y-6">
+                        {features.slice(0, 2).map((feature, i) => (
+                            <SpotlightCard key={i} className="bg-white/[0.02] p-8 rounded-3xl group border-white/5 hover:border-primary/20 transition-all">
+                                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="font-headline text-xl font-bold mb-2 tracking-tight">{feature.title}</h3>
+                                <p className="text-white/40 text-sm leading-relaxed mb-6">{feature.description}</p>
+                                <Link href="#" className="inline-flex items-center text-primary font-bold text-xs uppercase tracking-widest hover:translate-x-1 transition-transform">
+                                    Learn More <ArrowRight className="ml-2 h-3 w-3" />
+                                </Link>
+                            </SpotlightCard>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Communication Category */}
+                <div className="space-y-8">
+                    <div className="flex items-center gap-4 text-white/30 uppercase tracking-[0.3em] font-bold text-xs after:content-[''] after:h-[1px] after:flex-1 after:bg-white/10 after:border-dashed after:border-t">
+                        Communication
+                    </div>
+                    <div className="space-y-6">
+                        {features.slice(2, 4).map((feature, i) => (
+                            <SpotlightCard key={i} className="bg-white/[0.02] p-8 rounded-3xl group border-white/5 hover:border-primary/20 transition-all">
+                                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="font-headline text-xl font-bold mb-2 tracking-tight">{feature.title}</h3>
+                                <p className="text-white/40 text-sm leading-relaxed mb-6">{feature.description}</p>
+                                <Link href="#" className="inline-flex items-center text-primary font-bold text-xs uppercase tracking-widest hover:translate-x-1 transition-transform">
+                                    Learn More <ArrowRight className="ml-2 h-3 w-3" />
+                                </Link>
+                            </SpotlightCard>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Digitization Category */}
+                <div className="space-y-8">
+                    <div className="flex items-center gap-4 text-white/30 uppercase tracking-[0.3em] font-bold text-xs after:content-[''] after:h-[1px] after:flex-1 after:bg-white/10 after:border-dashed after:border-t">
+                        Digitization
+                    </div>
+                    <div className="space-y-6">
+                        {features.slice(4, 6).map((feature, i) => (
+                            <SpotlightCard key={i} className="bg-white/[0.02] p-8 rounded-3xl group border-white/5 hover:border-primary/20 transition-all">
+                                <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="font-headline text-xl font-bold mb-2 tracking-tight">{feature.title}</h3>
+                                <p className="text-white/40 text-sm leading-relaxed mb-6">{feature.description}</p>
+                                <Link href="#" className="inline-flex items-center text-primary font-bold text-xs uppercase tracking-widest hover:translate-x-1 transition-transform">
+                                    Learn More <ArrowRight className="ml-2 h-3 w-3" />
+                                </Link>
+                            </SpotlightCard>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="pricing" className="container py-32 bg-primary/[0.02] rounded-[4rem] border border-white/5">
-          <div className="text-center space-y-4 mb-20">
-              <Badge className="bg-primary/10 text-primary hover:bg-primary/10 border-primary/20">Pricing</Badge>
-              <h2 className="font-headline text-6xl font-bold">Simple <span className="text-primary">Economics.</span></h2>
-              <p className="text-white/50 text-xl">Empowering schools of all sizes across India.</p>
+        <section id="pricing" className="container py-32 rounded-[4rem] border border-white/5 bg-gradient-to-b from-primary/[0.02] to-transparent">
+          <div className="text-center space-y-6 mb-20">
+              <h2 className="font-headline text-6xl font-extrabold tracking-tight">Simple <span className="text-primary italic">Data Economics.</span></h2>
+              
+              <div className="flex items-center justify-center gap-4 pt-4">
+                  <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-1 self-center">
+                      <button className="px-6 py-2 rounded-full text-sm font-bold bg-white/10 text-white">Monthly</button>
+                      <button className="px-6 py-2 rounded-full text-sm font-bold text-white/40">Annual</button>
+                  </div>
+                  <Badge className="bg-primary text-black font-bold text-[10px] uppercase tracking-wider py-1">Save 23%</Badge>
+              </div>
           </div>
+          
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {[
-                  { name: "Basic", price: "Free", desc: "For individual educators", features: ["10 AI generations / month", "Core Academic Tools", "Community Support", "Basic Workspace"] },
-                  { name: "Pro", price: "₹499", desc: "For power teachers", popular: true, features: ["Unlimited generations", "Premium Visual Aids", "AI Answer Evaluation", "Advanced Paper Digitizer", "Priority Support"] },
-                  { name: "Enterprise", price: "Custom", desc: "For entire institutions", features: ["Unlimited users", "Custom Branding", "Admin Management Suite", "API Access", "Dedicated Onboarding"] }
+                  { name: "Basic", price: "₹10", desc: "For starting educators", features: ["Unlimited generations", "Premium Visual Aids", "AI Answer Evaluation", "Advanced Paper Digitizer"] },
+                  { name: "Pro", price: "₹399", desc: "Most popular for experts", popular: true, features: ["Unlimited generations", "Premium Visual Aids", "Premium Visual Aids", "AI Answer Evaluation", "Advanced Paper Digitizer", "Priority Support"] },
+                  { name: "Enterprise", price: "₹1,000", desc: "For institutions at scale", features: ["Unlimited generations", "Premium Visual Aids", "Premium Visual Aids", "AI Answer Evaluation", "Advanced Paper Digitizer", "Priority Support"] }
               ].map((plan, i) => (
-                  <SpotlightCard key={i} className={cn("flex flex-col p-12 rounded-[3rem] bg-black/40 backdrop-blur-2xl transition-all", plan.popular && "border-primary/50 border-2 shadow-2xl shadow-primary/10 relative scale-105 z-10")}>
-                      {plan.popular && <Badge className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-1.5 font-bold uppercase tracking-widest bg-primary text-black">Most Popular</Badge>}
-                      <h3 className="font-headline text-3xl font-bold">{plan.name}</h3>
-                      <p className="text-white/40 text-sm mt-3">{plan.desc}</p>
-                      <div className="my-10">
-                          <span className="text-6xl font-bold tracking-tighter">{plan.price}</span>
-                          {plan.price !== "Free" && plan.price !== "Custom" && <span className="text-white/40 text-lg ml-2">/ month</span>}
+                  <SpotlightCard key={i} className={cn("flex flex-col p-10 rounded-[2.5rem] bg-black/40 backdrop-blur-2xl transition-all border-white/10", plan.popular && "border-primary shadow-2xl shadow-primary/10 scale-105 z-10")}>
+                      {plan.popular && <Badge className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-6 py-1.5 font-extrabold uppercase tracking-widest bg-primary text-black text-[10px]">Most Popular</Badge>}
+                      <h3 className="font-headline text-3xl font-extrabold tracking-tight">{plan.name}</h3>
+                      <div className="my-8">
+                          <span className="text-5xl font-extrabold tracking-tighter">{plan.price}</span>
+                          <span className="text-white/40 text-base ml-2">/ month</span>
+                          {plan.name !== "Basic" && <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mt-2">Billed annually, saved ₹{plan.name === "Pro" ? "600" : "1200"}</p>}
                       </div>
-                      <ul className="space-y-5 mb-12 flex-1">
-                          {plan.features.map(f => (
-                              <li key={f} className="flex items-center gap-4 font-medium text-sm text-white/70">
-                                  <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                                      <CheckCircle className="h-3 w-3 text-primary" />
-                                  </div>
+                      <ul className="space-y-4 mb-10 flex-1">
+                          {plan.features.map((f, idx) => (
+                              <li key={idx} className="flex items-center gap-3 font-medium text-xs text-white/50">
+                                  <CheckCircle className="h-3.5 w-3.5 text-primary shrink-0" />
                                   {f}
                               </li>
                           ))}
                       </ul>
-                      <Button variant={plan.popular ? "default" : "outline"} className={cn("rounded-full h-14 font-bold text-lg", plan.popular ? "bg-primary text-black hover:bg-primary/90" : "border-white/10 hover:border-primary/50")}>
+                      <Button className={cn("rounded-xl h-12 font-extrabold text-sm uppercase tracking-widest", plan.popular ? "bg-primary text-black hover:bg-primary/90" : "bg-white/5 text-white hover:bg-white/10")}>
                           Get Started
                       </Button>
                   </SpotlightCard>
@@ -269,50 +307,47 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-white/5 mt-32 py-24 bg-black/40">
-        <div className="container grid md:grid-cols-4 gap-16">
-          <div className="space-y-8">
+      <footer className="border-t border-white/5 py-20 bg-black">
+        <div className="container grid md:grid-cols-4 gap-12">
+          <div className="space-y-6">
               <Link href="/" className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-black">
-                      <Sparkles className="h-6 w-6" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-black">
+                      <Sparkles className="h-5 w-5" />
                   </div>
-                  <span className="font-headline text-2xl font-bold">Learnivo <span className="text-primary">Ai</span></span>
+                  <span className="font-headline text-xl font-extrabold tracking-tight">Learnivo <span className="text-primary">Ai</span></span>
               </Link>
-              <p className="text-base text-white/40 leading-relaxed">
-                  The intelligent infrastructure for modern Indian classrooms. Designed and engineered in Bengaluru.
+              <p className="text-sm text-white/40 leading-relaxed max-w-xs">
+                  High-fidelity redesign of the Learnivo app landing page, variant 3 of 5.
               </p>
-              <div className="flex gap-4">
-                  <Button variant="ghost" size="icon" className="rounded-xl bg-white/5 text-white/50 hover:text-primary transition-colors"><MessageCircle className="h-5 w-5" /></Button>
-                  <Button variant="ghost" size="icon" className="rounded-xl bg-white/5 text-white/50 hover:text-primary transition-colors"><GitBranch className="h-5 w-5" /></Button>
-              </div>
           </div>
-          <div className="space-y-8 pt-2">
-              <h4 className="font-headline font-bold uppercase tracking-[0.2em] text-xs text-primary">Platform</h4>
-              <ul className="space-y-4 text-sm font-medium text-white/50">
-                  <li><Link href="#" className="hover:text-white transition-colors">Academic Tools</Link></li>
-                  <li><Link href="#" className="hover:text-white transition-colors">Visual AI</Link></li>
-                  <li><Link href="#" className="hover:text-white transition-colors">Pricing Plans</Link></li>
+          <div className="space-y-6">
+              <h4 className="font-bold uppercase tracking-widest text-[10px] text-white/40">Features</h4>
+              <ul className="space-y-3 text-xs font-bold uppercase tracking-widest text-white/20">
+                  <li><Link href="#" className="hover:text-primary transition-colors">Pricing</Link></li>
+                  <li><Link href="#" className="hover:text-primary transition-colors">Enterprise</Link></li>
+                  <li><Link href="#" className="hover:text-primary transition-colors">Login</Link></li>
               </ul>
           </div>
-          <div className="space-y-8 pt-2">
-              <h4 className="font-headline font-bold uppercase tracking-[0.2em] text-xs text-primary">Resources</h4>
-              <ul className="space-y-4 text-sm font-medium text-white/50">
-                  <li><Link href="#" className="hover:text-white transition-colors">Case Studies</Link></li>
-                  <li><Link href="#" className="hover:text-white transition-colors">Documentation</Link></li>
-                  <li><Link href="#" className="hover:text-white transition-colors">Support Center</Link></li>
+          <div className="space-y-6">
+              <h4 className="font-bold uppercase tracking-widest text-[10px] text-white/40">Resources</h4>
+              <ul className="space-y-3 text-xs font-bold uppercase tracking-widest text-white/20">
+                  <li><Link href="#" className="hover:text-primary transition-colors">About Us</Link></li>
+                  <li><Link href="#" className="hover:text-primary transition-colors">Resources</Link></li>
+                  <li><Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                  <li><Link href="#" className="hover:text-primary transition-colors">Terms and Conditions</Link></li>
               </ul>
           </div>
-          <div className="space-y-8 pt-2">
-              <h4 className="font-headline font-bold uppercase tracking-[0.2em] text-xs text-primary">Contact</h4>
-              <ul className="space-y-5 text-sm font-medium text-white/50">
-                  <li className="flex items-center gap-4 hover:text-white transition-colors"><Phone className="h-4 w-4 text-primary" /> +91 98765 43210</li>
-                  <li className="flex items-center gap-4 hover:text-white transition-colors"><MailIcon className="h-4 w-4 text-primary" /> hello@learnivo.app</li>
-                  <li className="flex items-center gap-4 hover:text-white transition-colors"><MapPin className="h-4 w-4 text-primary" /> Bengaluru, KA</li>
+          <div className="space-y-6">
+              <h4 className="font-bold uppercase tracking-widest text-[10px] text-white/40">Contact</h4>
+              <ul className="space-y-4 text-xs font-bold text-white/40 tracking-wider">
+                  <li className="flex items-center gap-3"><Phone className="h-3 w-3 text-primary" /> +91 12333 3333</li>
+                  <li className="flex items-center gap-3"><MailIcon className="h-3 w-3 text-primary" /> learnivo@learnivo.com</li>
+                  <li className="flex items-center gap-3"><MapPin className="h-3 w-3 text-primary" /> learnivo.app.com</li>
               </ul>
           </div>
         </div>
-        <div className="container mt-24 pt-10 border-t border-white/5 text-center text-xs font-bold uppercase tracking-[0.3em] text-white/20">
-            © {new Date().getFullYear()} Learnivo Ai. Empowering India's Future.
+        <div className="container mt-20 pt-8 border-t border-white/5 text-center text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
+            © 2024 LEARNIVO.AI. EMPOWERING INDIA'S FUTURE.
         </div>
       </footer>
     </div>
