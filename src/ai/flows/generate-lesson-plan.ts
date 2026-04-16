@@ -22,10 +22,16 @@ const DailyPlanSchema = z.object({
     learning_objectives: z.array(z.string()).describe("An array of 2-3 clear, measurable learning objectives for the sub-topic."),
     activities: z.array(z.object({
         name: z.string().describe("The name of the classroom activity."),
-        duration: z.string().describe("The estimated time for the activity in minutes.")
+        duration_minutes: z.number().describe("The estimated time for the activity in minutes."),
+        type: z.string().describe("The type of activity (e.g., 'group', 'individual', 'lecture')."),
+        instructions: z.string().describe("Detailed instructions for the activity.")
     })).describe("An array of objects, each representing a classroom activity."),
     resources: z.array(z.string()).describe("An array of strings listing required materials."),
-    assessment: z.string().describe("A simple, practical method to check for understanding for that day's lesson.")
+    assessment: z.object({
+        type: z.string().describe("The type of assessment (e.g., 'quiz', 'oral', 'written')."),
+        duration_minutes: z.number().describe("The duration of the assessment in minutes."),
+        details: z.string().describe("Details of the assessment method.")
+    }).describe("The assessment method for that day's lesson.")
 });
 
 const GenerateLessonPlanOutputSchema = z.object({
@@ -59,12 +65,17 @@ const prompt = ai.definePrompt({
 2.  **Daily Breakdown:** For each day, provide the following details within a JSON structure:
     -   **sub_topic**: A specific, manageable sub-topic derived from the main topic for that day's lesson.
     -   **learning_objectives**: An array of 2-3 clear, measurable learning objectives for the sub-topic. These should be action-oriented (e.g., "Students will be able to define...", "Students will be able to compare...").
-    -   **activities**: An array of objects, each representing a classroom activity. Each object must have:
+-   **activities**: An array of objects, each representing a classroom activity. Each object must have:
         -   'name': The name of the activity (e.g., "Brainstorming Session", "Group Discussion", "Interactive Quiz").
-        -   'duration': The estimated time for the activity (e.g., "10 mins", "25 mins").
+        -   'duration_minutes': The estimated time for the activity as a NUMBER in minutes (e.g., 10, 25).
+        -   'type': The type of activity (e.g., "group", "individual", "lecture", "hands-on").
+        -   'instructions': Detailed instructions for conducting the activity.
         The activities should be a mix of teacher-led instruction, student-led work, and group collaboration.
     -   **resources**: An array of strings listing required materials. Be specific. Include "Textbook, Chapter X" or "Whiteboard". If relevant, suggest links to online resources like PhET simulations (phet.colorado.edu) or specific educational YouTube videos.
-    -   **assessment**: A string describing a simple, practical method to check for understanding for that day's lesson (e.g., "Quick 3-question oral quiz," "Exit ticket: Ask students to write one thing they learned," "Observe student participation in group activity").
+    -   **assessment**: An object containing:
+        -   'type': The type of assessment (e.g., "quiz", "oral", "written", "exit-ticket").
+        -   'duration_minutes': The duration of the assessment in minutes as a NUMBER.
+        -   'details': A string describing a simple, practical method to check for understanding for that day's lesson (e.g., "Quick 3-question oral quiz," "Exit ticket: Ask students to write one thing they learned," "Observe student participation in group activity").
 
 3.  **Contextual Relevance:** Ensure the content, examples, and suggested activities are culturally and contextually relevant to students in India.
 
@@ -84,15 +95,19 @@ const prompt = ai.definePrompt({
         "Identify the key inputs and outputs of photosynthesis."
       ],
       "activities": [
-        { "name": "Brainstorming: What do plants eat?", "duration": "10 mins" },
-        { "name": "Teacher's Explanation with Diagram", "duration": "20 mins" }
+        { "name": "Brainstorming: What do plants eat?", "duration_minutes": 10, "type": "group", "instructions": "Ask students to share ideas about how plants get food." },
+        { "name": "Teacher's Explanation with Diagram", "duration_minutes": 20, "type": "lecture", "instructions": "Use whiteboard diagrams to explain photosynthesis." }
       ],
       "resources": [
         "Textbook, Chapter 4",
         "Whiteboard and markers",
         "A potted plant"
       ],
-      "assessment": "Ask students to draw a simple diagram of photosynthesis inputs and outputs."
+      "assessment": {
+        "type": "written",
+        "duration_minutes": 10,
+        "details": "Ask students to draw a simple diagram of photosynthesis inputs and outputs."
+      }
     },
     "day_2": {
         "sub_topic": "The Role of Chlorophyll",
@@ -101,14 +116,18 @@ const prompt = ai.definePrompt({
             "Understand why most plants are green."
         ],
         "activities": [
-            { "name": "Video on Chlorophyll", "duration": "15 mins" },
-            { "name": "Leaf Rubbing Art Activity", "duration": "20 mins" }
+          { "name": "Video on Chlorophyll", "duration_minutes": 15, "type": "lecture", "instructions": "Show educational video about chlorophyll." },
+          { "name": "Leaf Rubbing Art Activity", "duration_minutes": 20, "type": "hands-on", "instructions": "Students create leaf rubbings using crayons and leaves." }
         ],
         "resources": [
             "YouTube video link (e.g., SciShow Kids)",
             "Leaves, paper, crayons"
         ],
-        "assessment": "Ask students to explain in one sentence why leaves are green."
+        "assessment": {
+            "type": "oral",
+            "duration_minutes": 5,
+            "details": "Ask students to explain in one sentence why leaves are green."
+        }
     },
     "day_3": {
       "sub_topic": "Inputs: Light, Water, CO2",
@@ -117,13 +136,17 @@ const prompt = ai.definePrompt({
         "Relate each input to its source."
       ],
       "activities": [
-        { "name": "Group Discussion: Where do plants get their 'food' from?", "duration": "15 mins" },
-        { "name": "Simple Experiment Demo: Covering a leaf part to block sunlight", "duration": "20 mins" }
+        { "name": "Group Discussion: Where do plants get their 'food' from?", "duration_minutes": 15, "type": "group", "instructions": "Divide class into groups to discuss plant nutrition." },
+        { "name": "Simple Experiment Demo: Covering a leaf part to block sunlight", "duration_minutes": 20, "type": "hands-on", "instructions": "Demonstrate how blocking sunlight affects photosynthesis." }
       ],
       "resources": [
         "Black paper, paper clips, a healthy plant"
       ],
-      "assessment": "Quick quiz: Name the three ingredients for photosynthesis."
+      "assessment": {
+        "type": "quiz",
+        "duration_minutes": 5,
+        "details": "Quick quiz: Name the three ingredients for photosynthesis."
+      }
     },
      "day_4": {
       "sub_topic": "Outputs: Glucose and Oxygen",
@@ -132,13 +155,17 @@ const prompt = ai.definePrompt({
         "Explain the importance of oxygen for living beings."
       ],
       "activities": [
-        { "name": "Analogy: Plant as a 'Sugar Factory'", "duration": "10 mins" },
-        { "name": "Think-Pair-Share: Why is photosynthesis important for us?", "duration": "25 mins" }
+        { "name": "Analogy: Plant as a 'Sugar Factory'", "duration_minutes": 10, "type": "lecture", "instructions": "Explain photosynthesis using factory analogy." },
+        { "name": "Think-Pair-Share: Why is photosynthesis important for us?", "duration_minutes": 25, "type": "group", "instructions": "Students think, discuss with partner, then share with class." }
       ],
       "resources": [
         "Chart paper and markers"
       ],
-      "assessment": "Exit ticket: Write down one way photosynthesis helps humans."
+      "assessment": {
+        "type": "exit-ticket",
+        "duration_minutes": 5,
+        "details": "Exit ticket: Write down one way photosynthesis helps humans."
+      }
     },
      "day_5": {
       "sub_topic": "Weekly Review and Fun Quiz",
@@ -147,14 +174,18 @@ const prompt = ai.definePrompt({
         "Recall key vocabulary from the week."
       ],
       "activities": [
-        { "name": "Interactive Kahoot! Quiz", "duration": "20 mins" },
-        { "name": "Drawing Contest: Draw the entire process of photosynthesis", "duration": "20 mins" }
+        { "name": "Interactive Kahoot! Quiz", "duration_minutes": 20, "type": "group", "instructions": "Class participates in online quiz game." },
+        { "name": "Drawing Contest: Draw the entire process of photosynthesis", "duration_minutes": 20, "type": "individual", "instructions": "Students draw and label the photosynthesis process." }
       ],
       "resources": [
         "Kahoot! platform or similar quiz tool",
         "Drawing sheets and colors"
       ],
-      "assessment": "Review of quiz scores and participation."
+      "assessment": {
+        "type": "quiz",
+        "duration_minutes": 15,
+        "details": "Review of quiz scores and participation."
+      }
     }
   }
 }
